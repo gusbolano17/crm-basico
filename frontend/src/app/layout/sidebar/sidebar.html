@@ -1,0 +1,39 @@
+    <mat-sidenav-container class="h-screen!">
+      <mat-sidenav
+        #drawer
+        [mode]="(layout.isHandset$ | async) ? 'over' : 'side'"
+        [opened]="layout.drawerOpened()"
+        (openedChange)="layout.drawerOpened.set($event)"
+        class="w-[200px]! rounded-none! border-r dark:bg-gray-800! dark:border-gray-700! bg-white!"
+        fixedInViewport>
+        <mat-toolbar class="bg-inherit!">
+          <div class="flex items-center gap-3 mt-10 mb-6">
+            <div class="h-10 w-10 bg-green-500 rounded flex items-center justify-center font-bold text-white">
+              AD
+            </div>
+            <div>
+              <h1 class="text-lg font-semibold">Admin</h1>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Panel de control</p>
+            </div>
+          </div>
+        </mat-toolbar>
+        <ul class="p-2 flex flex-col w-full gap-2">
+          @for (item of items(); track item.label) {
+            <li>
+              <a
+                class="hover:bg-white/5 w-full p-2 flex items-center gap-2 rounded-md"
+                [routerLink]="item.path"
+                routerLinkActive="!bg-black !text-white"
+              >
+                <mat-icon class="text-[20px]! size-5!">{{ item.icon }}</mat-icon>
+                <span>{{ item.label }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <ng-content></ng-content>
+      </mat-sidenav-content>
+    </mat-sidenav-container>

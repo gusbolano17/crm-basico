@@ -1,0 +1,57 @@
+<mat-toolbar class="sticky! top-0! z-10! shadow-sm flex items-center dark:bg-gray-800! dark:border-gray-700!">
+  <button
+    mat-icon-button
+    aria-label="Toggle sidenav"
+    class="cursor-pointer md:hidden"
+    (click)="layout.toggleDrawer()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="ml-2 font-semibold text-lg">Resumen</span>
+  <span class="flex-1"></span>
+
+  <!-- Notificaciones -->
+  <div class="flex gap-2">
+
+    <button 
+      mat-icon-button 
+      aria-label="notifications"
+      class="hover:bg-gray-100 dark:hover:bg-gray-700 mt-2">
+      <mat-icon>notifications</mat-icon>
+    </button>
+  
+    <!-- Tema -->
+    <button mat-icon-button (click)="theme.toggleTheme()" class="hover:bg-gray-100 dark:hover:bg-gray-700 ml-2 mt-2">
+      <mat-icon>{{ theme.isDarkMode() ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    </button>
+  
+    <!-- Perfil con menú -->
+    <button mat-button [matMenuTriggerFor]="profileMenu" class="flex items-center gap-2 ml-2">
+      <div class="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-sm">
+        A
+      </div>
+      <div class="hidden sm:block text-left">
+        <div class="text-sm font-medium">Admin</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400">Administrador</div>
+      </div>
+    </button>
+  
+    <mat-menu #profileMenu="matMenu" class="mt-3 p-2 dark:bg-gray-800! dark:border-gray-700! dark:text-white">
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Mi perfil</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Configuración</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        <span>Cerrar sesión</span>
+      </button>
+    </mat-menu>
+  </div>
+
+</mat-toolbar>
