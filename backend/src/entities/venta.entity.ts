@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { ClienteEntity } from './cliente.entity';
 import { DetalleVenta } from './detalle-venta.entity';
+import { EstadosVentas } from './estados-enums';
 
 @Entity("ventas")
 export class Venta {
@@ -23,5 +24,12 @@ export class Venta {
 
   @CreateDateColumn() fechaCreacion: Date;
   @CreateDateColumn() fechaActualizacion: Date;
+
+  @Column({
+    type: 'enum',
+    enum: EstadosVentas,
+    default: EstadosVentas.ACTIVA,
+  })
+  estado: EstadosVentas;
 
 }

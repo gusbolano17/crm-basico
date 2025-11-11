@@ -42,7 +42,7 @@ export class ProductosService {
       where: { id: productoId },
     });
     if (!producto) throw new Error('El producto no existe');
-    producto.stock += cantidad;
+    producto.stock = cantidad;
     await this.productosRepository.save(producto);
   }
 

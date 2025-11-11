@@ -1,10 +1,9 @@
 import { IsArray, IsNotEmpty } from 'class-validator';
 
 export class VentasDTO {
-
   @IsNotEmpty()
-  clienteId: string;
+  documento: string;
   @IsArray()
   @IsNotEmpty()
-  productos: string[];
+  productos: { nombre: string, cantidad: number }[];
 }

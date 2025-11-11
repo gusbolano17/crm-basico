@@ -1,1 +1,12 @@
-<p>ventas works!</p>
+<section class="p-4 md:p-6 lg:p-8">
+    <div class="lg:col-span-2 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700">
+        <mat-tab-group>
+            <mat-tab label="Realizar venta">
+                <app-ventas-form></app-ventas-form>
+            </mat-tab>
+            <mat-tab label="Consultar ventas">
+                <app-ventas-query></app-ventas-query>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</section>
