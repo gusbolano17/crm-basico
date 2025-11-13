@@ -25,3 +25,9 @@ export class FiltroProductoDto extends FiltroGeneral{
   @IsOptional() @IsString() precio?: number;
   @IsOptional() @IsString() stock?: number;
 }
+
+export class FiltroVentaDto extends FiltroGeneral{
+  @IsOptional() @IsString() tipoDocumento?: string;
+  @IsOptional() @IsString() documento?: string;
+  @IsOptional() @IsString() estado?: string;
+}

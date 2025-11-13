@@ -5,5 +5,3 @@ export enum EstadosVentas {
   FINALIZADA = "FINALIZADA",
 
 }
-
-export enum EstadosPagos { PAGADO = "PAGADO", PENDIENTE = "PENDIENTE" }

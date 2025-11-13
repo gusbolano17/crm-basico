@@ -26,6 +26,7 @@ import { PagosModule } from './modulos/pagos.module';
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+      // logging: ['query','error', 'warn']
     }),
     UsuariosModule,
     ClientesModule,

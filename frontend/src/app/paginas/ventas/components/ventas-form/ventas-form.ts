@@ -93,21 +93,16 @@ export class VentasForm implements OnInit {
       }),
     };
 
-    const isEdit = false;
 
-    const operation = this.ventaService.realizarVenta(ventaBody);
-
-    operation.subscribe({
+    this.ventaService.realizarVenta(ventaBody).subscribe({
       next: () => {
-        if(!isEdit){
-          this.ventaForm.reset();
-          this.carrito.update(() => []);
-        }
-        this.snackBarService.open(`Producto ${isEdit ? 'actualizado' : 'creado'} con éxito`);
+        this.ventaForm.reset();
+        this.carrito.update(() => []);
+        this.snackBarService.open('Venta realizada con éxito');
       },
       error: (error) => {
-        this.snackBarService.open(`Error al ${isEdit ? 'actualizar' : 'crear'} el producto`);
-        console.error(`Error al ${isEdit ? 'actualizar' : 'crear'} el producto:`, error);
+        this.snackBarService.open('Error al realizar la venta');
+        console.error('Error al realizar la venta', error);
       },
     });
   }

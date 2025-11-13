@@ -15,7 +15,7 @@ export class PagosService {
     private ventaService: VentasService,
   ) {}
 
-  async realizarPago(pago: PagoDTO): Promise<Pago> {
+  async realizarPago(pago: PagoDTO, usuario : string): Promise<Pago> {
     // Obtener y validar venta
     const venta = await this.ventaService.obtenerVentaId(pago.ventaId);
     if (!venta) {
@@ -48,15 +48,17 @@ export class PagosService {
       ventaId: venta,
       monto: pago.monto,
       formaPago: pago.formaPago as FormaPago,
-      fecha: new Date(),
+      fechaPago: new Date(),
+      fecha : new Date(),
     });
 
     try {
       // Guardar pago y actualizar estado de venta en una transacción
       const pagoGuardado = await this.pagosRepository.save(nuevoPago);
       await this.ventaService.cambiarEstadoVenta(
-        venta,
+        venta.id,
         EstadosVentas.FINALIZADA,
+        usuario
       );
       return pagoGuardado;
     } catch (error) {

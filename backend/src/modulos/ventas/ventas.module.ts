@@ -6,10 +6,11 @@ import { Venta } from '../../entities/venta.entity';
 import { DetalleVenta } from '../../entities/detalle-venta.entity';
 import { ClientesModule } from '../clientes/clientes.module';
 import { ProductosModule } from '../productos/productos.module';
+import { HistorialVenta } from '../../entities/historial-ventas.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Venta, DetalleVenta]),
+    TypeOrmModule.forFeature([Venta, DetalleVenta, HistorialVenta]),
     ClientesModule,
     ProductosModule
   ],
