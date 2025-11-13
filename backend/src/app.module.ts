@@ -9,7 +9,7 @@ import { ProductosModule } from './modulos/productos/productos.module';
 import { CategoriaModule } from './modulos/categoria/categoria.module';
 import { VentasModule } from './modulos/ventas/ventas.module';
 import { DashboardModule } from './modulos/dashboard/dashboard.module';
-import { PagosModule } from './modulos/pagos.module';
+import { PagosModule } from './modulos/pagos/pagos.module';
 
 
 @Module({

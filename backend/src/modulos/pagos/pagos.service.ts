@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Pago } from '../entities/pago.entity';
-import { VentasService } from './ventas/ventas.service';
-import { PagoDTO } from '../entities/dto/pagoDTO';
-import { FormaPago } from '../entities/forma-pago-enum';
-import { EstadosVentas } from '../entities/estados-enums';
+import { Pago } from '../../entities/pago.entity';
+import { VentasService } from '../ventas/ventas.service';
+import { PagoDTO } from '../../entities/dto/pagoDTO';
+import { FormaPago } from '../../entities/forma-pago-enum';
+import { EstadosVentas } from '../../entities/estados-enums';
 
 @Injectable()
 export class PagosService {

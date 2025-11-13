@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { PagosService } from './pagos.service';
-import { Pago } from '../entities/pago.entity';
-import { PagoDTO } from '../entities/dto/pagoDTO';
-import { User } from '../core/user-decorator';
+import { Pago } from '../../entities/pago.entity';
+import { PagoDTO } from '../../entities/dto/pagoDTO';
+import { User } from '../../core/user-decorator';
 
 @Controller('pagos')
 export class PagosController {
