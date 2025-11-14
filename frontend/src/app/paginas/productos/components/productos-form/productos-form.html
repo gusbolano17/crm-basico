@@ -1,75 +1,77 @@
-<div class="my-10 px-8">
-  <form
-    [formGroup]="productoForm"
-    (ngSubmit)="onSubmit()"
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-  >
-    <!-- Nombre -->
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Nombre</mat-label>
-      <input matInput placeholder="Ingresa el nombre del producto" formControlName="nombre" />
-    </mat-form-field>
+<div class="py-4">
+  <mat-card class="p-5 rounded-2xl! dark:bg-gray-700!">
+    <form
+      [formGroup]="productoForm"
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      <!-- Nombre -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingresa el nombre del producto" formControlName="nombre" />
+      </mat-form-field>
 
-    <!-- Descripción -->
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Descripción</mat-label>
-      <input
-        matInput
-        placeholder="Ingresa la descripción del producto"
-        formControlName="descripcion"
-      />
-    </mat-form-field>
+      <!-- Descripción -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Descripción</mat-label>
+        <input
+          matInput
+          placeholder="Ingresa la descripción del producto"
+          formControlName="descripcion"
+        />
+      </mat-form-field>
 
-    <!-- Precio -->
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Precio</mat-label>
-      <input
-        matInput
-        type="number"
-        placeholder="Ingresa el precio del producto"
-        formControlName="precio"
-      />
-    </mat-form-field>
+      <!-- Precio -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Precio</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Ingresa el precio del producto"
+          formControlName="precio"
+        />
+      </mat-form-field>
 
-    <!-- Stock -->
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Stock</mat-label>
-      <input
-        matInput
-        type="number"
-        placeholder="Ingresa la cantidad en stock"
-        formControlName="stock"
-      />
-    </mat-form-field>
+      <!-- Stock -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Stock</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Ingresa la cantidad en stock"
+          formControlName="stock"
+        />
+      </mat-form-field>
 
-    <!-- Categoría -->
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Categoría</mat-label>
-      <mat-select formControlName="categoria">
-        @for (cat of categorias(); track $index) {
-        <mat-option [value]="cat.nombre">{{ cat.nombre }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+      <!-- Categoría -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="categoria">
+          @for (cat of categorias(); track $index) {
+          <mat-option [value]="cat.nombre">{{ cat.nombre }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
 
-    <!-- Botones -->
-    <div class="flex items-center justify-start gap-4 md:col-span-2 lg:col-span-3 mt-6">
-      <button
-        mat-flat-button
-        class="bg-yellow-300! text-yellow-950!"
-        type="button"
-        (click)="onReset()"
-      >
-        Limpiar
-      </button>
-      <button
-        mat-flat-button
-        class="bg-green-500! text-white! disabled:opacity-50"
-        type="submit"
-        [disabled]="productoForm.invalid"
-      >
-        Guardar
-      </button>
-    </div>
-  </form>
+      <!-- Botones -->
+      <div class="flex items-center justify-start gap-4 md:col-span-2 lg:col-span-3 mt-6">
+        <button
+          mat-flat-button
+          class="bg-yellow-300! text-yellow-950!"
+          type="button"
+          (click)="onReset()"
+        >
+          Limpiar
+        </button>
+        <button
+          mat-flat-button
+          class="bg-green-500! text-white! disabled:opacity-50"
+          type="submit"
+          [disabled]="productoForm.invalid"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </mat-card>
 </div>

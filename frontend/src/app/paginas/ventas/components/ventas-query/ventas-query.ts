@@ -1,14 +1,12 @@
-import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import {
   Component,
   DestroyRef,
-  ElementRef,
   inject,
   OnInit,
   signal,
   TemplateRef,
   ViewChild,
-  viewChild,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -25,6 +23,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SnackbarService } from '../../../../services/snackbar-service';
 import { MetodoPago } from '../../../../modelos/metodo-pago.enum';
 import { TipoDocumento } from '../../../../modelos/documento.enum';
+import { ActionsTable, ColumnType, Table } from '../../../../layout/table/table';
 
 @Component({
   selector: 'app-ventas-query',
@@ -39,8 +38,7 @@ import { TipoDocumento } from '../../../../modelos/documento.enum';
     MatSelectModule,
     MatInputModule,
     CurrencyPipe,
-    DatePipe,
-    NgClass,
+    Table,
   ],
   templateUrl: './ventas-query.html',
 })
@@ -68,7 +66,33 @@ export class VentasQuery implements OnInit {
   });
 
   public ventas: Venta[] = [];
-  public columnas: string[] = ['cliente', 'fecha', 'total', 'estado', 'acciones'];
+  public displayedColumns: ColumnType[] = [
+    { key: 'clienteId.nombre', label: 'Cliente', type: 'text' },
+    { key: 'fechaCreacion', label: 'Fecha', type: 'date' },
+    { key: 'total', label: 'Total', type: 'currency', currency: 'USD' },
+    { key: 'estado', label: 'Estado', type: 'estado' },
+    { key: 'acciones', label: 'Acciones', type: 'actions' },
+  ];
+
+  public actions: ActionsTable[] = [
+    {
+      label: 'Detalles',
+      class: 'bg-cyan-600! hover:bg-cyan-500! text-white px-3 py-1 rounded-md',
+      callback: (row: Venta) => this.verDetalle(row),
+    },
+    {
+      label: 'Pago',
+      class: 'bg-green-600! hover:bg-green-500! text-white px-3 py-1 rounded-md disabled:bg-green-400!',
+      callback: (row: Venta) => this.realizarPago(row),
+      disabled: (row: Venta) => row.estado !== 'ACTIVA',
+    },
+    {
+      label: 'Anular',
+      class: 'bg-red-600! hover:bg-red-500! text-white px-3 py-1 rounded-md disabled:bg-red-400!',
+      callback: (row: Venta) => this.anularVenta(row.id),
+      disabled: (row: Venta) => row.estado !== 'ACTIVA',
+    },
+  ];
 
   public selectFiltros = signal([
     { value: null, viewValue: 'Seleccione un filtro' },

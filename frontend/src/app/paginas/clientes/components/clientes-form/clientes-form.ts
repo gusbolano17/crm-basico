@@ -1,22 +1,31 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormField, MatLabel } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import { MatListModule } from "@angular/material/list";
-import {MatSelectModule} from '@angular/material/select';
-import { MatButtonModule } from "@angular/material/button";
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 import { ClienteReq, ClientesService } from '../../../../services/clientes-service';
 import { SnackbarService } from '../../../../services/snackbar-service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TipoDocumento } from '../../../../modelos/documento.enum';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-clientes-form',
-  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatListModule, MatSelectModule, MatButtonModule],
-  templateUrl: './clientes-form.html'
+  imports: [
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatListModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCardModule
+  ],
+  templateUrl: './clientes-form.html',
 })
-export class ClientesForm implements OnInit{
-
+export class ClientesForm implements OnInit {
   private clienteService = inject(ClientesService);
   private snackbarService = inject(SnackbarService);
   private fb = inject(FormBuilder);
@@ -26,7 +35,7 @@ export class ClientesForm implements OnInit{
   public tiposDocumento = signal<TipoDocumento[]>([
     TipoDocumento['Cédula de Ciudadanía'],
     TipoDocumento['Cédula de Extranjería'],
-    TipoDocumento['NIT']
+    TipoDocumento['NIT'],
   ]);
 
   public clienteForm = this.fb.group({
@@ -36,7 +45,7 @@ export class ClientesForm implements OnInit{
     documento: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     telefono: [''],
-    direccion: ['']
+    direccion: [''],
   });
 
   ngOnInit() {
@@ -55,9 +64,9 @@ export class ClientesForm implements OnInit{
 
     const formValue: ClienteReq = this.clienteForm.value as ClienteReq;
     const isEdit = this.dataDialog?.edit;
-    const operation = isEdit ? 
-      this.clienteService.actualizarCliente(this.dataDialog.cliente.id, formValue) : 
-      this.clienteService.crearCliente(formValue);
+    const operation = isEdit
+      ? this.clienteService.actualizarCliente(this.dataDialog.cliente.id, formValue)
+      : this.clienteService.crearCliente(formValue);
 
     operation.subscribe({
       next: () => {
@@ -67,7 +76,7 @@ export class ClientesForm implements OnInit{
       error: (error) => {
         this.snackbarService.open(`Error al ${isEdit ? 'actualizar' : 'crear'} el cliente`);
         console.error(`Error al ${isEdit ? 'actualizar' : 'crear'} el cliente:`, error);
-      }
+      },
     });
   }
 

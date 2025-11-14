@@ -13,6 +13,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProductosForm } from '../productos-form/productos-form';
 import { Categoria } from '../../../../modelos/categoria';
 import { CategoriasService } from '../../../../services/categorias-service';
+import { ActionsTable, ColumnType, Table } from '../../../../layout/table/table';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-productos-query',
@@ -23,6 +25,8 @@ import { CategoriasService } from '../../../../services/categorias-service';
     ReactiveFormsModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatCardModule,
+    Table,
   ],
   templateUrl: './productos-query.html',
 })
@@ -49,22 +53,40 @@ export class ProductosQuery implements OnInit {
   public filtroSeleccionado = signal<string | null>(null);
   public categorias = signal<Categoria[]>([]);
 
-  public displayedColumns: string[] = ['nombre', 'descripcion', 'categoria', 'acciones'];
+  public displayedColumns: ColumnType[] = [
+    { key: 'nombre', label: 'Nombre', type: 'text' },
+    { key: 'descripcion', label: 'Descripción', type: 'text' },
+    { key: 'categoria.nombre', label: 'Categoría', type: 'text' },
+    { key: 'acciones', label: 'Acciones', type: 'actions' },
+  ];
 
   public datasource = signal<MatTableDataSource<Productos>>(new MatTableDataSource<Productos>([]));
   public total = signal<number>(0);
 
+  public actions: ActionsTable[] = [
+    {
+      label: 'Editar',
+      class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2',
+      callback: (row: Productos) => this.actualizarProductoDialog(row),
+    },
+    {
+      label: 'Eliminar',
+      class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded',
+      callback: (row: Productos) => this.eliminarProducto(row.id),
+    },
+  ];
+
   ngOnInit(): void {
     this.obtenerProductos();
-    this.categoriaService.listarCategorias().subscribe(resp => {
+    this.categoriaService.listarCategorias().subscribe((resp) => {
       this.categorias.set(resp);
-    })
+    });
   }
 
   handleSelectChange(event: any) {
     this.filtroSeleccionado.set(event.value);
     this.filtroForm.reset();
-    if(this.filtroSeleccionado() == null){
+    if (this.filtroSeleccionado() == null) {
       this.obtenerProductos();
     }
   }
@@ -77,7 +99,7 @@ export class ProductosQuery implements OnInit {
       desde: desdeValue ? new Date(desdeValue).toISOString().split('T')[0] : undefined,
       hasta: hastaValue ? new Date(hastaValue).toISOString().split('T')[0] : undefined,
       search: this.filtroForm.get('search')?.value || undefined,
-      categoria : this.filtroForm.get('categoria')?.value || undefined
+      categoria: this.filtroForm.get('categoria')?.value || undefined,
     };
 
     this.productosService

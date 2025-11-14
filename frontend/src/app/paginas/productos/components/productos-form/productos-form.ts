@@ -11,6 +11,7 @@ import { SnackbarService } from '../../../../services/snackbar-service';
 import { CategoriasService } from '../../../../services/categorias-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-productos-form',
@@ -22,6 +23,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     MatListModule,
     MatSelectModule,
     MatButtonModule,
+    MatCardModule
   ],
   templateUrl: './productos-form.html',
 })

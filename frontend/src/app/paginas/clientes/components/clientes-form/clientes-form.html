@@ -1,95 +1,85 @@
-<div class="my-10 px-8">
-  <form
-    [formGroup]="clienteForm"
-    (ngSubmit)="onSubmit()"
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-  >
-    <!-- Nombre -->
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Nombre</mat-label>
-      <input
-        matInput
-        placeholder="Ingresa el nombre del cliente"
-        formControlName="nombre"
-      />
-      <!-- <mat-error *ngIf="clienteForm.get('nombre')?.hasError('required')">
-        El nombre es obligatorio
-      </mat-error> -->
-    </mat-form-field>
+<div class="py-4">
+  <mat-card class="p-5 rounded-2xl! dark:bg-gray-700!">
+    <form
+      [formGroup]="clienteForm"
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      <!-- Nombre -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingresa el nombre del cliente" formControlName="nombre" />
+        <!-- <mat-error *ngIf="clienteForm.get('nombre')?.hasError('required')">
+            El nombre es obligatorio
+          </mat-error> -->
+      </mat-form-field>
 
-    <!-- Apellido -->
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Apellido</mat-label>
-      <input
-        matInput
-        placeholder="Ingresa el apellido del cliente"
-        formControlName="apellido"
-      />
-      <!-- <mat-error *ngIf="clienteForm.get('apellido')?.hasError('required')">
-        El apellido es obligatorio
-      </mat-error> -->
-    </mat-form-field>
+      <!-- Apellido -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Apellido</mat-label>
+        <input matInput placeholder="Ingresa el apellido del cliente" formControlName="apellido" />
+        <!-- <mat-error *ngIf="clienteForm.get('apellido')?.hasError('required')">
+            El apellido es obligatorio
+          </mat-error> -->
+      </mat-form-field>
 
-    <!-- tipo de documento -->
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Tipo de documento</mat-label>
-      <mat-select formControlName="tipoDocumento">
-        @for (td of tiposDocumento(); track $index) {
+      <!-- tipo de documento -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Tipo de documento</mat-label>
+        <mat-select formControlName="tipoDocumento">
+          @for (td of tiposDocumento(); track $index) {
           <mat-option [value]="td">{{ td }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+          }
+        </mat-select>
+      </mat-form-field>
 
-    <!-- Número de documento -->
-    <mat-form-field appearance="fill" class="w-full">
+      <!-- Número de documento -->
+      <mat-form-field appearance="fill" class="w-full">
         <mat-label>Número de documento</mat-label>
+        <input matInput placeholder="Ingresa el número de documento" formControlName="documento" />
+      </mat-form-field>
+
+      <!-- Email -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" placeholder="correo@ejemplo.com" formControlName="email" />
+      </mat-form-field>
+
+      <!-- Teléfono -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Teléfono</mat-label>
+        <input matInput type="tel" placeholder="300 000 0000" formControlName="telefono" />
+      </mat-form-field>
+
+      <!-- Dirección -->
+      <mat-form-field appearance="fill" class="w-full md:col-span-2">
+        <mat-label>Dirección</mat-label>
         <input
-            matInput
-            placeholder="Ingresa el número de documento"
-            formControlName="documento"
+          matInput
+          placeholder="Ingresa la dirección del cliente"
+          formControlName="direccion"
         />
-    </mat-form-field>
+      </mat-form-field>
 
-    <!-- Email -->
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Email</mat-label>
-      <input
-        matInput
-        type="email"
-        placeholder="correo@ejemplo.com"
-        formControlName="email"
-      />
-    </mat-form-field>
-
-    <!-- Teléfono -->
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Teléfono</mat-label>
-      <input
-        matInput
-        type="tel"
-        placeholder="300 000 0000"
-        formControlName="telefono"
-      />
-    </mat-form-field>
-
-    <!-- Dirección -->
-    <mat-form-field appearance="fill" class="w-full md:col-span-2">
-      <mat-label>Dirección</mat-label>
-      <input
-        matInput
-        placeholder="Ingresa la dirección del cliente"
-        formControlName="direccion"
-      />
-    </mat-form-field>
-
-    <!-- Botones -->
-    <div class="flex items-center justify-start gap-4 md:col-span-2 lg:col-span-3 mt-6">
-      <button mat-flat-button class="bg-yellow-300! text-yellow-950!" type="button" (click)="onReset()">
-        Limpiar
-      </button>
-      <button mat-flat-button class="bg-green-500! text-white! disabled:opacity-50" type="submit" [disabled]="clienteForm.invalid">
-        Guardar
-      </button>
-    </div>
-  </form>
+      <!-- Botones -->
+      <div class="flex items-center justify-start gap-4 md:col-span-2 lg:col-span-3 mt-6">
+        <button
+          mat-flat-button
+          class="bg-yellow-300! text-yellow-950!"
+          type="button"
+          (click)="onReset()"
+        >
+          Limpiar
+        </button>
+        <button
+          mat-flat-button
+          class="bg-green-500! text-white! disabled:opacity-50"
+          type="submit"
+          [disabled]="clienteForm.invalid"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </mat-card>
 </div>
