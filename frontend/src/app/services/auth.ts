@@ -15,7 +15,7 @@ export class AuthService {
   isAuthenticated = signal<boolean>(!!sessionStorage.getItem('access_token'));
 
   login(body: { email: string; password: string }) : Observable<{accessToken: string, refreshToken: string}> {
-    return this.http.post<{accessToken: string, refreshToken: string}>(`${Environment.API_URL}/usuario/login`, body).pipe(
+    return this.http.post<{accessToken: string, refreshToken: string}>(`${Environment.API_URL}/auth/login`, body).pipe(
       tap(({ accessToken, refreshToken }) => {
         sessionStorage.setItem('access_token', accessToken);
         sessionStorage.setItem('refresh_token', refreshToken);
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   logout(body : {refreshToken?: string} = {}) {
-    return this.http.post(`${Environment.API_URL}/usuario/logout`, body).pipe(
+    return this.http.post(`${Environment.API_URL}/auth/logout`, body).pipe(
       tap(() => {
         sessionStorage.removeItem('access_token');
         sessionStorage.removeItem('refresh_token');
@@ -46,7 +46,7 @@ export class AuthService {
       return;
     }
 
-    return this.http.post<{ newAccessToken: string, newRefreshToken: string }>(`${Environment.API_URL}/usuario/refresh`, { refreshToken }).pipe(
+    return this.http.post<{ newAccessToken: string, newRefreshToken: string }>(`${Environment.API_URL}/auth/refresh`, { refreshToken }).pipe(
       tap(({ newAccessToken, newRefreshToken }) => {
         sessionStorage.setItem('access_token', newAccessToken);
         sessionStorage.setItem('refresh_token', newRefreshToken);

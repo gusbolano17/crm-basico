@@ -10,6 +10,7 @@ import { CategoriaModule } from './modulos/categoria/categoria.module';
 import { VentasModule } from './modulos/ventas/ventas.module';
 import { DashboardModule } from './modulos/dashboard/dashboard.module';
 import { PagosModule } from './modulos/pagos/pagos.module';
+import { AutenticacionModule } from './modulos/autenticacion/autenticacion.module';
 
 
 @Module({
@@ -35,6 +36,7 @@ import { PagosModule } from './modulos/pagos/pagos.module';
     VentasModule,
     DashboardModule,
     PagosModule,
+    AutenticacionModule,
   ],
   controllers: [],
   providers: [{
