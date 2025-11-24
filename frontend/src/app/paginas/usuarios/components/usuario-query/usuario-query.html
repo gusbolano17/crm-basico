@@ -1,0 +1,98 @@
+<div class="py-4">
+  <mat-card class="wrapper-card">
+    <!-- FILTROS -->
+    <form [formGroup]="filtrosForm" (ngSubmit)="obtenerUsuarios()" class="flex gap-5 mb-6">
+      <mat-form-field appearance="fill">
+        <mat-label>Seleccionar filtro</mat-label>
+        <mat-select (selectionChange)="handleSelectChange($event)">
+          @for (fil of selectFiltros(); track $index) {
+          <mat-option [value]="fil.value">{{ fil.viewValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      @if (filtroSeleccionado() === 'search') {
+      <mat-form-field appearance="fill">
+        <mat-label>Busqueda general</mat-label>
+        <input matInput formControlName="search" placeholder="Nombre...." />
+      </mat-form-field>
+      }@else if (filtroSeleccionado() === 'estado') {
+      <mat-form-field appearance="fill">
+        <mat-label>Estados</mat-label>
+        <mat-select formControlName="estado">
+          <mat-option value="Todos">Todos</mat-option>
+          @for (td of selectEstadosUsuarios(); track $index) {
+          <mat-option [value]="td.value">{{ td.viewValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      }@else if (filtroSeleccionado() === 'roles') {
+      <mat-form-field appearance="fill">
+        <mat-label>Roles</mat-label>
+        <mat-select formControlName="roles">
+          <mat-option value="todos">Todos</mat-option>
+          @for (td of selectRolesUsuarios(); track $index) {
+          <mat-option [value]="td.value">{{ td.viewValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      }@else if (filtroSeleccionado() === 'rangoFecha') {
+      <mat-form-field appearance="fill">
+        <mat-label>Ingrese dos fechas</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Fecha de inicio" formControlName="desde" />
+          <input matEndDate placeholder="Fecha de fin" formControlName="hasta" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+      }@if (filtroSeleccionado() != null) {
+      <button
+        mat-flat-button
+        color="primary"
+        class="bg-blue-600 hover:bg-blue-500 h-14 p-2 rounded text-white"
+        type="submit"
+      >
+        Buscar
+      </button>
+      }
+    </form>
+
+    <div class="overflow-x-auto rounded-lg">
+      <app-table
+        [datasource]="datasource()"
+        [columns]="displayedColumns"
+        [actions]="actions"
+      ></app-table>
+    </div>
+  </mat-card>
+</div>
+
+<ng-template #modalpass let-usuarioData>
+  <h2 mat-dialog-title>Cambiar Contraseña</h2>
+  <mat-dialog-content>
+    <form [formGroup]="passForm">
+      <mat-form-field appearance="fill" class="w-full mb-4">
+        <mat-label>Nueva contraseña</mat-label>
+        <input matInput type="password" formControlName="password" required />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="w-full mb-4">
+        <mat-label>Confirmar contraseña</mat-label>
+        <input matInput type="password" formControlName="confirmPassword" required />
+      </mat-form-field>
+      @if (passForm.errors?.['passwordMismatch']){
+      <div class="text-red-600 my-4">Las contraseñas no coinciden</div>
+      }
+      <div class="flex justify-end mt-4">
+        <button
+          mat-flat-button
+          color="primary"
+          class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded"
+          (click)="cambiarPassword(usuarioData.id)"
+        >
+          Cambiar contraseña
+        </button>
+      </div>
+    </form>
+  </mat-dialog-content>
+</ng-template>

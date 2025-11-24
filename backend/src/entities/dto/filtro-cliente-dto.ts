@@ -1,4 +1,6 @@
 import {
+  IsBoolean,
+  IsBooleanString,
   IsDateString,
   IsNumberString,
   IsOptional,
@@ -30,4 +32,9 @@ export class FiltroVentaDto extends FiltroGeneral{
   @IsOptional() @IsString() tipoDocumento?: string;
   @IsOptional() @IsString() documento?: string;
   @IsOptional() @IsString() estado?: string;
+}
+
+export class FiltroUsuarioDto extends FiltroGeneral{
+  @IsOptional() @IsString() role?: string;
+  @IsOptional() @IsBooleanString() estado?: boolean;
 }

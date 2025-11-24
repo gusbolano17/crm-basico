@@ -1,73 +1,77 @@
 <table mat-table [dataSource]="datasource()" class="min-w-full border rounded-lg">
-
   @for (col of columns(); track $index) {
-    <ng-container [matColumnDef]="col.key">
+  <ng-container [matColumnDef]="col.key">
+    <!-- HEADER -->
+    <th mat-header-cell *matHeaderCellDef class="px-4 py-2 bg-gray-100 dark:bg-[#0f172a]">
+      {{ col.label }}
+    </th>
 
-      <!-- HEADER -->
-      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 bg-gray-100 dark:bg-[#0f172a]">
-        {{ col.label }}
-      </th>
+    <!-- CELDA -->
+    <td mat-cell *matCellDef="let element" class="px-4 py-2">
+      @switch (col.type) {
 
-      <!-- CELDA -->
-      <td mat-cell *matCellDef="let element" class="px-4 py-2">
+      <!-- Texto simple o campo anidado -->
+      @case ('text') {
+      {{ getValue(element, col.key) }}
+      } @case ('email') {
+      {{ getValue(element, col.key) }}
+      }
 
-        @switch (col.type) {
+      <!-- Booleano -->
+      @case ('boolean') {
 
-          <!-- Texto simple o campo anidado -->
-          @case ('text') {
-            {{ getValue(element, col.key) }}
-          }
+      <span
+        [ngClass]="{
+          'text-green-500': getValue(element, col.key) === true,
+          'text-red-500': getValue(element, col.key) === false
+        }"
+      >
+        {{ getValue(element, col.key) ? 'ACTIVO' : 'INACTIVO' }}
+      </span>
 
-          @case ('email') {
-            {{ getValue(element, col.key) }}
-          }
+      }
 
-          <!-- Fecha -->
-          @case ('date') {
-            {{ getValue(element, col.key) | date : 'yyyy-MM-dd' }}
-          }
+      <!-- Fecha -->
+      @case ('date') {
+      {{ getValue(element, col.key) | date : 'yyyy-MM-dd' }}
+      }
 
-          <!-- Moneda -->
-          @case ('currency') {
-            {{ getValue(element, col.key) | currency : col.currency }}
-          }
+      <!-- Moneda -->
+      @case ('currency') {
+      {{ getValue(element, col.key) | currency : col.currency }}
+      }
 
-          <!-- Chip de estado -->
-          @case ('estado') {
-            <span
-              [ngClass]="{
-                'text-yellow-500': getValue(element, col.key) === 'ACTIVA',
-                'text-green-500': getValue(element, col.key) === 'FINALIZADA',
-                'text-red-500': getValue(element, col.key) === 'CANCELADA'
-              }"
-            >
-              {{ getValue(element, col.key) }}
-            </span>
-          }
+      <!-- Chip de estado -->
+      @case ('estado') {
+      <span
+        [ngClass]="{
+          'text-yellow-500': getValue(element, col.key) === 'ACTIVA',
+          'text-green-500': getValue(element, col.key) === 'FINALIZADA',
+          'text-red-500': getValue(element, col.key) === 'CANCELADA'
+        }"
+      >
+        {{ getValue(element, col.key) }}
+      </span>
+      }
 
-          <!-- Acciones -->
-          @case ('actions') {
-            <div class="flex gap-2">
-
-              @for (action of actions(); track $index) {
-                <button
-                  mat-flat-button
-                  class="px-3 py-1 rounded-md text-white"
-                  [ngClass]="action.class"
-                  [disabled]="action.disabled?.(element)"
-                  (click)="action.callback(element)"
-                >
-                  {{ action.label }}
-                </button>
-              }
-
-            </div>
-          }
-
+      <!-- Acciones -->
+      @case ('actions') {
+      <div class="flex gap-2">
+        @for (action of actions(); track $index) {
+        <button
+          mat-flat-button
+          class="px-3 py-1 rounded-md text-white"
+          [ngClass]="action.class"
+          [disabled]="action.disabled?.(element)"
+          (click)="action.callback(element)"
+        >
+          {{ action.label }}
+        </button>
         }
-      </td>
-
-    </ng-container>
+      </div>
+      } }
+    </td>
+  </ng-container>
   }
 
   <tr mat-header-row *matHeaderRowDef="columnsKeys"></tr>

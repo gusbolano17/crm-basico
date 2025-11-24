@@ -1,0 +1,57 @@
+<section class="p-4 md:p-6 lg:p-8">
+  <div
+    class="lg:col-span-2 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700"
+  >
+    <div class="py-4 flex flex-wrap flex-col gap-4 md:flex-row">
+      <mat-card class="p-5 rounded-2xl! dark:bg-gray-700! flex-auto md:w-1/2">
+        <div class="flex items-center gap-4 justify-between">
+          <div class="flex items-center gap-4">
+            <img
+              [src]="perfilUsuario().avatarUrl"
+              alt="avatar"
+              class="w-16 h-16 rounded-full object-cover"
+            />
+            <div>
+              <p class="text-lg font-semibold">{{perfilUsuario().usuario.nombre}}</p>
+              <p class="text-sm opacity-70">{{perfilUsuario().usuario.role}}</p>
+              <mat-chip>
+                <span class="text-green-500">
+                  {{perfilUsuario().usuario.activo ? 'Activo' : 'Inactivo'}}
+                </span>
+              </mat-chip>
+            </div>
+          </div>
+          <button mat-mini-fab color="primary" type="button" (click)="editarPerfilUsuario()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+      <div cdkAccordion class="p-5 rounded-2xl! dark:bg-gray-700! flex-auto md:w-1/2">
+        <div cdkAccordionItem #accordionItem="cdkAccordionItem">
+          <div
+            cdkAccordionItemHeader
+            class="flex items-center justify-between cursor-pointer"
+            (click)="accordionItem.toggle()"
+          >
+            <div class="flex items-center gap-2">
+              <mat-icon class="text-cyan-500!">person</mat-icon>
+              <span class="text-lg font-semibold">Informacion personal</span>
+            </div>
+            <mat-icon>
+              {{ accordionItem.expanded ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </div>
+          @if (accordionItem.expanded) {
+          <div cdkAccordionItemContent class="mt-4 space-y-2">
+            <p><strong>Nombre:</strong> {{perfilUsuario().usuario.nombre}}</p>
+            <p><strong>Biografía:</strong> {{perfilUsuario().biografia}}</p>
+            <p><strong>Email:</strong> {{perfilUsuario().usuario.email}}</p>
+            <p><strong>Teléfono:</strong> {{perfilUsuario().telefono}}</p>
+            <p><strong>Dirección:</strong> {{perfilUsuario().direccion}}</p>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

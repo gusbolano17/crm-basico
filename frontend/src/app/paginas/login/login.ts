@@ -7,6 +7,7 @@ import { MatLabel } from "@angular/material/form-field";
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../../services/snackbar-service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  private snackBarService = inject(SnackbarService);
 
   public loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -30,10 +32,12 @@ export class Login {
     this.authService.login({ email: email!, password: password! }).subscribe({
       next: (resp) => {
         console.log('Login successful', resp);
+        this.snackBarService.open('Login successful');
         this.router.navigate(['/main']);
       },
       error: (err) => {
         console.error('Login failed', err);
+        this.snackBarService.open('Login failed');
       }
     });
   }

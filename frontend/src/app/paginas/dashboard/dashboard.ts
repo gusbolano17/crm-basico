@@ -23,6 +23,7 @@ export class Dashboard {
     { title: 'Ventas hoy', value: '$3,240', diff: '+1.1%', icon: 'attach_money' },
     { title: 'Nuevos leads', value: 92, diff: '-2.5%', icon: 'insights' },
     { title: 'Tasa de conversión', value: '3.8%', diff: '+0.3%', icon: 'trending_up' }
-  ])
+  ]);
+
 
 }

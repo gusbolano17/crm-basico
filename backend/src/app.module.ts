@@ -11,6 +11,7 @@ import { VentasModule } from './modulos/ventas/ventas.module';
 import { DashboardModule } from './modulos/dashboard/dashboard.module';
 import { PagosModule } from './modulos/pagos/pagos.module';
 import { AutenticacionModule } from './modulos/autenticacion/autenticacion.module';
+import { PerfilUsuarioModule } from './modulos/usuarios/perfil-usuario/perfil-usuario.module';
 
 
 @Module({
@@ -36,6 +37,7 @@ import { AutenticacionModule } from './modulos/autenticacion/autenticacion.modul
     VentasModule,
     DashboardModule,
     PagosModule,
+    PerfilUsuarioModule,
     AutenticacionModule,
   ],
   controllers: [],

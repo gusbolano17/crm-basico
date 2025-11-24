@@ -1,3 +1,9 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+    .wrapper-card {
+        @apply p-5 rounded-2xl! dark:bg-gray-700!;
+    }
+}

@@ -7,7 +7,7 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <span class="ml-2 font-semibold text-lg">Resumen</span>
+  <span class="ml-2 font-semibold text-lg">{{moduleTitle()}}</span>
   <span class="flex-1"></span>
 
   <!-- Notificaciones -->
@@ -37,7 +37,7 @@
     </button>
   
     <mat-menu #profileMenu="matMenu" class="mt-3 p-2 dark:bg-gray-800! dark:border-gray-700! dark:text-white">
-      <button mat-menu-item>
+      <button mat-menu-item routerLink="perfil" class="cursor-pointer">
         <mat-icon>person</mat-icon>
         <span>Mi perfil</span>
       </button>
@@ -47,7 +47,7 @@
         <span>Configuración</span>
       </button>
       <mat-divider></mat-divider>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="logout()" class="cursor-pointer">
         <mat-icon>logout</mat-icon>
         <span>Cerrar sesión</span>
       </button>

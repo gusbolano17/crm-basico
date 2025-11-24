@@ -1,0 +1,177 @@
+<div class="py-4">
+  <mat-card class="wrapper-card">
+    <form
+      [formGroup]="usuarioForm"
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      @if (modeForm() == 'create' || modeForm() === 'edit') {
+
+      <!-- Nombre -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingresa el nombre del usuario" formControlName="nombre" />
+      </mat-form-field>
+
+      <!-- Email -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          placeholder="Ingresa el email del usuario"
+          formControlName="email"
+        />
+      </mat-form-field>
+
+      @if(modeForm() === 'edit') {
+      <!-- Role -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          @for (role of roles(); track $index) {
+          <mat-option [value]="role">{{ role }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Estado -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="estado">
+          @for (estado of estadosUsuario(); track $index) {
+          <mat-option [value]="estado">{{ estado }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      }
+
+      @if (modeForm() === 'create') {
+        <!-- Password -->
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            placeholder="Ingresa la contraseña"
+            formControlName="password"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Confirmar Password</mat-label>
+          <input
+            matInput
+            type="password"
+            placeholder="Confirma la contraseña"
+            formControlName="confirmarPassword"
+          />
+        </mat-form-field>
+      }
+
+      } @if (modeForm() === 'profile') {
+
+      <!-- Foto de perfil -->
+      <div class="col-span-full">
+        <label for="cover-photo" class="block text-sm/6 font-medium text-white">
+          Foto de perfil
+        </label>
+        <div
+          class="mt-2 flex justify-center rounded-lg border border-dashed border-white/25 px-6 py-10 relative min-h-48"
+        >
+          @if (previewUrl()) {
+          <img
+            [src]="previewUrl()"
+            alt="Preview"
+            class="absolute inset-0 w-full h-full object-cover rounded-lg"
+          />
+          <label
+            for="file-upload"
+            class="absolute bottom-4 right-4 z-10 cursor-pointer rounded-md bg-indigo-600/80 px-3 py-1 text-sm font-semibold text-white shadow hover:bg-indigo-500 transition"
+            [attr.tabindex]="0"
+            (keydown.enter)="fileInput.click()"
+            (keydown.space)="fileInput.click()"
+          >
+            Cambiar imagen
+            <input
+              #fileInput
+              id="file-upload"
+              type="file"
+              name="file-upload"
+              class="sr-only"
+              (change)="subirArchivo($event)"
+              accept="image/*"
+            />
+          </label>
+          } @else {
+          <div class="text-center w-full">
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+              class="mx-auto size-12 text-gray-600"
+            >
+              <path
+                d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+              />
+            </svg>
+            <div class="mt-4 flex text-sm/6 text-gray-400 justify-center">
+              <label
+                for="file-upload"
+                class="relative cursor-pointer rounded-md bg-transparent font-semibold text-indigo-400 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-500 hover:text-indigo-300"
+                [attr.tabindex]="0"
+                (keydown.enter)="fileInput.click()"
+                (keydown.space)="fileInput.click()"
+              >
+                <span>Subir archivo</span>
+                <input
+                  #fileInput
+                  id="file-upload"
+                  type="file"
+                  name="file-upload"
+                  class="sr-only"
+                  (change)="subirArchivo($event)"
+                  accept="image/*"
+                />
+              </label>
+              <p class="pl-1">o arrastra y suelta</p>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Teléfono -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Teléfono</mat-label>
+        <input matInput placeholder="Ingresa el número de teléfono" formControlName="telefono" />
+      </mat-form-field>
+
+      <!-- Dirección -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Dirección</mat-label>
+        <input matInput placeholder="Ingresa la dirección" formControlName="direccion" />
+      </mat-form-field>
+
+      <!-- Biografía -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Biografía</mat-label>
+        <input matInput placeholder="Ingresa una breve biografía" formControlName="biografia" />
+      </mat-form-field>
+      }
+
+      <!-- Botones -->
+      <div class="flex items-center justify-start gap-4 md:col-span-2 lg:col-span-3 mt-6">
+        <button
+          mat-flat-button
+          class="bg-green-500! text-white! disabled:opacity-50"
+          type="submit"
+          [disabled]="usuarioForm.invalid"
+        >
+          Guardar Usuario
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
