@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatToolbar } from "@angular/material/toolbar";
 import { MatIcon } from "@angular/material/icon";
 import { MatMenu, MatMenuTrigger } from "@angular/material/menu";
@@ -14,7 +14,7 @@ import { SnackbarService } from '../../services/snackbar-service';
   imports: [MatToolbar, MatIcon, MatMenu, MatDivider, MatMenuTrigger, RouterLink],
   templateUrl: './toolbar.html'
 })
-export class Toolbar {
+export class Toolbar{
 
   private loginService = inject(AuthService);
   private snackbarService = inject(SnackbarService);
@@ -23,6 +23,8 @@ export class Toolbar {
   public theme = inject(ThemeService);
 
   public moduleTitle = input<string>('');
+  public userdata = input<any>();
+
 
   logout(){
     this.loginService.logout().subscribe({

@@ -1,7 +1,15 @@
-import { Body, Controller, Get, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Put,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { PerfilUsuarioService } from './perfil-usuario.service';
 import { User } from '../../../core/user-decorator';
 import { PerfilUsuarioDto } from '../../../entities/dto/perfil-usuario-dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('perfil-usuario')
 export class PerfilUsuarioController {
@@ -13,7 +21,16 @@ export class PerfilUsuarioController {
   }
 
   @Put("actualizar-perfil")
-  async editarPerfilUsuario(@User('sub') usuarioId : string, @Body() body : PerfilUsuarioDto){
-    return this.perfilUsuarioService.editarPerfil(usuarioId, body);
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      limits : {fileSize : 10 * 1024 * 1024}
+    })
+  )
+  async editarPerfilUsuario(
+    @UploadedFile() file : Express.Multer.File,
+    @User('sub') usuarioId : string, 
+    @Body() body : PerfilUsuarioDto
+  ){
+    return this.perfilUsuarioService.editarPerfil(usuarioId, body, file);
   }
 }

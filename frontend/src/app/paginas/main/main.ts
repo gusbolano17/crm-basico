@@ -4,6 +4,7 @@ import { Sidebar } from '../../layout/sidebar/sidebar';
 import { Toolbar } from '../../layout/toolbar/toolbar';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { PerfilUsuarioService } from '../../services/perfil-usuario-service';
 
 @Component({
   selector: 'app-main',
@@ -13,6 +14,10 @@ import { filter, map } from 'rxjs';
 export class Main implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly perfilUsuarioService = inject(PerfilUsuarioService);
+
+  public userdata = signal<any>(null);
+  public imgUser = signal<string>('');
 
   public theme = inject(ThemeService);
   public moduleTitle = signal<string>('');
@@ -37,5 +42,13 @@ export class Main implements OnInit {
       .subscribe((title) => {
         this.moduleTitle.set(title ?? '');
       });
+
+    this.obtenerPerfilUsuario();
+  }
+
+  obtenerPerfilUsuario() {
+    this.perfilUsuarioService.obtenerPerfilUsuario().subscribe(resp => {
+      this.userdata.set(resp);
+    })
   }
 }

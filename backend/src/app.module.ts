@@ -12,6 +12,8 @@ import { DashboardModule } from './modulos/dashboard/dashboard.module';
 import { PagosModule } from './modulos/pagos/pagos.module';
 import { AutenticacionModule } from './modulos/autenticacion/autenticacion.module';
 import { PerfilUsuarioModule } from './modulos/usuarios/perfil-usuario/perfil-usuario.module';
+import { CloudinaryService } from './core/cloudinary.service';
+import { CloudinaryProvider } from './core/cloudinary.config';
 
 
 @Module({
@@ -38,12 +40,12 @@ import { PerfilUsuarioModule } from './modulos/usuarios/perfil-usuario/perfil-us
     DashboardModule,
     PagosModule,
     PerfilUsuarioModule,
-    AutenticacionModule,
+    AutenticacionModule
   ],
   controllers: [],
   providers: [{
     provide: 'APP_GUARD',
     useClass: AuthGuard
-  }, JwtService],
+  }, JwtService, CloudinaryService, CloudinaryProvider],
 })
 export class AppModule {}

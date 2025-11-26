@@ -39,6 +39,8 @@ export class UsuarioForm implements OnInit {
   public roles = signal<string[]>(['vendedor', 'supervisor', 'usuario']);
   public estadosUsuario = signal<string[]>(['activo', 'inactivo']);
 
+  archivo: File | null = null;
+
   ngOnInit(): void {
     this.onBuildForm();
     if (this.dataDialog?.mode === 'profile') {
@@ -50,7 +52,7 @@ export class UsuarioForm implements OnInit {
         direccion: perfil.direccion,
         avatarUrl: perfil.avatarUrl,
       });
-    }else if (this.dataDialog?.mode === 'edit') {
+    } else if (this.dataDialog?.mode === 'edit') {
       const usuario = this.dataDialog.usuario;
       this.usuarioForm.patchValue({
         nombre: usuario.nombre,
@@ -65,8 +67,6 @@ export class UsuarioForm implements OnInit {
     const mode = this.dataDialog?.mode || 'create';
 
     this.modeForm.set(mode);
-    console.log(this.modeForm());
-    
 
     const isCreate = mode === 'create';
     const isProfile = mode === 'profile';
@@ -74,9 +74,10 @@ export class UsuarioForm implements OnInit {
 
     this.usuarioForm = this.fb.group({
       nombre: isCreate || isEdit ? ['', Validators.required] : [{ value: '', disabled: true }],
-      email: isCreate || isEdit
-        ? ['', [Validators.email, Validators.required]]
-        : [{ value: '', disabled: true }],
+      email:
+        isCreate || isEdit
+          ? ['', [Validators.email, Validators.required]]
+          : [{ value: '', disabled: true }],
       role: isEdit ? ['', Validators.required] : [{ value: '', disabled: true }],
       estado: isEdit ? ['', Validators.required] : [{ value: '', disabled: true }],
       password: isCreate ? ['', Validators.required] : [{ value: '', disabled: true }],
@@ -90,13 +91,12 @@ export class UsuarioForm implements OnInit {
 
   async subirArchivo(event: any) {
     const archivo = event.target.files[0];
-    try {
-      const urlFile = await this.fileService.convertirArchivoAUrl(archivo);
-      this.previewUrl.set(urlFile);
-      this.usuarioForm.patchValue({ avatarUrl: urlFile });
-    } catch (err) {
-      this.snackBarService.open('Error al subir el archivo.');
-    }
+    if (!archivo) return;
+
+    const urlFile = await this.fileService.convertirArchivoAUrl(archivo);
+    this.previewUrl.set(urlFile);
+
+    this.archivo = archivo;
   }
 
   onSubmit(): void {
@@ -107,49 +107,73 @@ export class UsuarioForm implements OnInit {
     }
 
     const formValue = this.usuarioForm.getRawValue();
-    let operation: Observable<unknown> | null = null;
+    const formData = new FormData();
 
     switch (this.modeForm()) {
-      case 'create': {
-        const usuarioReq: UsuarioReq = {
-          email: formValue.email,
-          nombre: formValue.nombre,
-          password: formValue.password,
-        };
-        operation = this.usuarioService.registrarUsuario(usuarioReq);
-        break;
-      }
       case 'profile':
-        operation = this.perfilUsuario.actualizarPerfilUsuario(formValue);
+        this.onSaveProfile(formData, formValue);
+        break;
+      case 'create':
+        this.onSaveUsuario(formValue);
         break;
       case 'edit':
-        const usuarioReqEdit : UsuarioReq = {
-          nombre : formValue.nombre,
-          email : formValue.email,
-          role : formValue.role,
-          activo : formValue.estado === 'activo' ? true : false,
-        }
-        operation = this.usuarioService.editarUsuario(this.dataDialog.usuario.id,usuarioReqEdit);
+        this.onEditUsuario(formValue);
         break;
-      default:
-        this.snackBarService.open('Modo de formulario no reconocido.');
-        return;
+    }
+  }
+
+  onSaveProfile(formData: FormData, formValue: any) {
+    formData.append('biografia', formValue.biografia || '');
+    formData.append('telefono', formValue.telefono || '');
+    formData.append('direccion', formValue.direccion || '');
+
+    if (this.archivo) {
+      formData.append('avatar', this.archivo);
     }
 
-    operation?.subscribe({
+    this.perfilUsuario.actualizarPerfilUsuario(formData).subscribe({
       next: () => {
-        if (this.modeForm() === 'create') {
-          this.usuarioForm.reset();
-          this.snackBarService.open('Usuario creado con éxito.');
-        } else if (this.modeForm() === 'profile') {
-          this.previewUrl.set(null);
-          this.snackBarService.open('Perfil de usuario actualizado con éxito.');
-        } else {
-          this.snackBarService.open('Usuario actualizado con éxito.');
-        }
+        this.previewUrl.set(null);
+        this.snackBarService.open('Perfil actualizado con éxito.');
+      },
+      error: () => this.snackBarService.open('Error al actualizar.'),
+    });
+  }
+
+  onSaveUsuario(formValue: any) {
+    const usuarioReq: UsuarioReq = {
+      nombre: formValue.nombre,
+      email: formValue.email,
+      password: formValue.password,
+    };
+
+    this.usuarioService.registrarUsuario(usuarioReq).subscribe({
+      next: () => {
+        this.usuarioForm.reset();
+        this.snackBarService.open('Usuario creado con éxito.');
       },
       error: () => {
-        this.snackBarService.open('Error al realizar la operación.');
+        this.snackBarService.open('Error al crear usuario.');
+      },
+    });
+  }
+
+  onEditUsuario(formValue: any) {
+    const usuarioReqEdit: UsuarioReq = {
+      nombre: formValue.nombre,
+      email: formValue.email,
+      role: formValue.role,
+      activo: formValue.estado === 'activo' ? true : false,
+    };
+
+    const id = this.dataDialog.usuario.id;
+
+    this.usuarioService.editarUsuario(id, usuarioReqEdit).subscribe({
+      next: () => {
+        this.snackBarService.open('Usuario actualizado con éxito.');
+      },
+      error: () => {
+        this.snackBarService.open('Error al editar usuario');
       },
     });
   }

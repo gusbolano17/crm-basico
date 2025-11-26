@@ -4,13 +4,15 @@ import { PerfilUsuario } from '../../../entities/perfil-usuario.entity';
 import { Repository } from 'typeorm';
 import { UsuarioService } from '../usuario.service';
 import { PerfilUsuarioDto } from '../../../entities/dto/perfil-usuario-dto';
+import { CloudinaryService } from '../../../core/cloudinary.service';
 
 @Injectable()
 export class PerfilUsuarioService {
   constructor(
     @InjectRepository(PerfilUsuario)
     private readonly perfilUsuarioRepo : Repository<PerfilUsuario>,
-    private readonly  usuarioService : UsuarioService
+    private readonly  usuarioService : UsuarioService,
+    private readonly cloudinaryService : CloudinaryService
   ) {}
 
   // Obtiene el perfil del usuario logueado
@@ -29,19 +31,19 @@ export class PerfilUsuarioService {
   }
 
   // Edita o crea el perfil del usuario logueado
-  async editarPerfil(usuarioId: string, dto: PerfilUsuarioDto) {
+  async editarPerfil(usuarioId: string, dto: PerfilUsuarioDto,   file?: Express.Multer.File) {
     const usuario = await this.usuarioService.obtenerUsuarioId(usuarioId);
-
     if (!usuario) throw new NotFoundException('Usuario no encontrado');
 
     let perfil = usuario.perfil;
 
-    // Si no existe perfil, se crea uno nuevo
+    if (file) {
+      const upload = await this.cloudinaryService.uploadImage(file, usuario.nombre);
+      dto.avatarUrl = upload?.secure_url;
+    }
+
     if (!perfil) {
-      perfil = this.perfilUsuarioRepo.create({
-        ...dto,
-        usuario,
-      });
+      perfil = this.perfilUsuarioRepo.create({ ...dto, usuario });
     } else {
       Object.assign(perfil, dto);
     }
