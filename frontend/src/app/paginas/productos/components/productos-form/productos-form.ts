@@ -12,6 +12,8 @@ import { CategoriasService } from '../../../../services/categorias-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
+import { CurrencyDirective } from '../../../../core/currency';
+
 
 @Component({
   selector: 'app-productos-form',
@@ -23,8 +25,9 @@ import { MatCardModule } from '@angular/material/card';
     MatListModule,
     MatSelectModule,
     MatButtonModule,
-    MatCardModule
-  ],
+    MatCardModule,
+    CurrencyDirective
+],
   templateUrl: './productos-form.html',
 })
 export class ProductosForm implements OnInit {

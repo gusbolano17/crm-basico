@@ -29,13 +29,13 @@
     <button mat-button [matMenuTriggerFor]="profileMenu" class="flex items-center gap-2 ml-2">
       <div class="h-8 w-8 flex items-center justify-center text-sm">
         <img 
-        [src]="userdata().avatarUrl ?? 'default_avatar.png'"
+        [src]="userdata()?.avatarUrl ?? 'default_avatar.png'"
         alt="profile" 
         class="w-8 h-8 rounded-full object-cover">
       </div>
       <div class="hidden sm:block text-left">
-        <div class="text-sm font-medium">{{userdata().usuario.nombre}}</div>
-        <div class="text-xs text-gray-500 dark:text-gray-400">{{userdata().usuario.role}}</div>
+        <div class="text-sm font-medium">{{userdata()?.usuario?.nombre}}</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400">{{userdata()?.usuario?.role}}</div>
       </div>
     </button>
   

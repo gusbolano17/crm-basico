@@ -31,7 +31,6 @@ export class Login {
     const { email, password } = this.loginForm.value;
     this.authService.login({ email: email!, password: password! }).subscribe({
       next: (resp) => {
-        console.log('Login successful', resp);
         this.snackBarService.open('Login successful');
         this.router.navigate(['/main']);
       },

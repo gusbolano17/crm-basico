@@ -26,7 +26,8 @@
         <mat-label>Precio</mat-label>
         <input
           matInput
-          type="number"
+          appCurrency
+          [currency]="'COP'" [locale]="'es-CO'"
           placeholder="Ingresa el precio del producto"
           formControlName="precio"
         />

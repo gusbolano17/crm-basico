@@ -8,6 +8,8 @@ import { ThemeService } from '../../services/theme';
 import { RouterLink } from "@angular/router";
 import { AuthService } from '../../services/auth';
 import { SnackbarService } from '../../services/snackbar-service';
+import { PerfilUsuarioEntity } from '../../modelos/perfil-usuario';
+
 
 @Component({
   selector: 'app-toolbar',
@@ -23,7 +25,7 @@ export class Toolbar{
   public theme = inject(ThemeService);
 
   public moduleTitle = input<string>('');
-  public userdata = input<any>();
+  public userdata = input<PerfilUsuarioEntity>();
 
 
   logout(){
